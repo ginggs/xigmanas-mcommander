@@ -33,7 +33,7 @@ esac ; exit 0; }
 #----------------------- Check for full path ------------------------------------------------------------
 if [ ! `echo $0 |cut -c1-5` = "/mnt/" ]; then _msg 4 ; fi
 cd $DIR;
-#----------------------- Download and decompress mc files if don't exist --------------------------------
+#----------------------- Download and decompress mc files if needed -------------------------------------
 FILE=${MCFILE}
 if [ ! -d ${DIR}/usr/local/bin ]; then
   if [ ! -e ${DIR}/${FILE} ]; then fetch ${URL}/${FILE} || _msg 1; fi
@@ -41,7 +41,7 @@ if [ ! -d ${DIR}/usr/local/bin ]; then
     rm -R ${DIR}/usr/local/man; fi
   if [ ! -d ${DIR}/usr/local/bin ]; then _msg 4; fi
 fi
-#----------------------- Download and decompress libslang files if don't exist --------------------------
+#----------------------- Download and decompress libslang files if needed -------------------------------
 FILE=${LIBSLANGFILE}
 if [ ! -d ${DIR}/usr/local/lib ]; then
   if [ ! -e ${DIR}/${FILE} ]; then fetch ${URL}/${FILE} || _msg 1; fi
@@ -51,7 +51,7 @@ if [ ! -d ${DIR}/usr/local/lib ]; then
     rm ${DIR}/usr/local/etc/slsh.rc; fi
   if [ ! -d ${DIR}/usr/local/lib ]; then _msg 4; fi
 fi
-#----------------------- Download and decompress libssh2 files if don't exist ---------------------------
+#----------------------- Download and decompress libssh2 files if needed --------------------------------
 FILE=${LIBSSH2FILE}
 if [ ! -f ${DIR}/usr/local/lib/libssh2.so ]; then
   if [ ! -e ${DIR}/${FILE} ]; then fetch ${URL}/${FILE} || _msg 1; fi
@@ -77,8 +77,8 @@ for i in `ls $DIR/usr/local/lib`
   do if [ ! -e /usr/local/lib/${i} ]; then ln -s ${DIR}/usr/local/lib/$i /usr/local/lib; fi; done
 _msg 3 ; exit 0;
 #----------------------- End of Script ------------------------------------------------------------------
-# 1. Keep this script in his own directory.
+# 1. Keep this script in its own directory.
 # 2. chmod the script u+x,
-# 3. Always run this script using the full path: /mnt/share/directory/mcommander
-# 4. You can add this script to WebGUI: Advanced: Commands as Post command (see 3).
+# 3. Always run this script using the full path: /mnt/.../directory/mcommander.sh
+# 4. You can add this script to WebGUI: Advanced: Command Scripts as a PostInit command (see 3).
 # 5. To run Midnight Commander from shell type 'mc'.
