@@ -2,7 +2,7 @@
 # filename:     mcommander.sh
 # author:       Dan Merschi
 # date:         2009-07-28 ; Add multiplatform support
-# author:       Graham Inggs <graham@nerve.org.za>
+# author:       Graham Inggs
 # date:         2012-04-11 ; Updated for NAS4Free 9.0.0.1
 # date:         2013-02-09 ; Updated for ftp.freebsd.org restructuring and latest mc-light version
 # date:         2013-05-05 ; Switch from mc-light to mc ; drop compat7x ; add libslang
