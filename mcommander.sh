@@ -10,7 +10,7 @@
 # date:         2013-08-23 ; Fetch files from packages-9.2-release ; add libssh2
 # date:         2018-05-23 ; Updated for NAS4Free 11.1.0.4
 # date:         2018-12-29 ; Updated for XigmaNAS 11.2.0.4
-# purpose:      Install Midnight Commander on NAS4Free (embedded version).
+# purpose:      Install Midnight Commander on XigmaNAS (embedded version).
 # Note:         Check the end of the page.
 #
 #----------------------- Set variables ------------------------------------------------------------------

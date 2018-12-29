@@ -1,4 +1,4 @@
-nas4free-mcommander
+xigmanas-mcommander
 ===================
 
-Install Midnight Commander on NAS4Free (embedded version)
+Install Midnight Commander on XigmaNAS (embedded version)
