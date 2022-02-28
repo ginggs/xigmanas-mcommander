@@ -13,25 +13,22 @@
 # date:         2019-10-29 ; Updated for XigmaNAS 12.0.0.4
 # date:         2019-11-25 ; Updated for XigmaNAS 12.1.0.4
 # date:         2021-04-03 ; Updated for XigmaNAS 12.2.0.4
+# author:       nivigor
+# date:         2022-02-28 ; Updated for XigmaNAS 12.*; not need exact file names
 # purpose:      Install Midnight Commander on XigmaNAS (embedded version).
 # Note:         Check the end of the page.
 #
 #----------------------- Set variables ------------------------------------------------------------------
 DIR=`dirname $0`;
-PLATFORM=`uname -m`
-RELEASE=`uname -r | cut -d- -f1`
-REL_MAJOR=`echo $RELEASE | cut -d. -f1`
-REL_MINOR=`echo $RELEASE | cut -d. -f2`
-URL="http://distcache.freebsd.org/FreeBSD:${REL_MAJOR}:${PLATFORM}/release_${REL_MINOR}/All"
-MCFILE="mc-4.8.24.txz"
-LIBSLANGFILE="libslang2-2.3.2_2.txz"
-LIBSSH2FILE="libssh2-1.9.0_3,3.txz"
+MCFILE="mc-*"
+LIBSLANGFILE="libslang2-*"
+LIBSSH2FILE="libssh2-*"
 #----------------------- Set Errors ---------------------------------------------------------------------
 _msg() { case $@ in
   0) echo "The script will exit now."; exit 0 ;;
   1) echo "No route to server, or file do not exist on server"; _msg 0 ;;
   2) echo "Can't find ${FILE} on ${DIR}"; _msg 0 ;;
-  3) echo "Midnight Commander installed and ready! (ONLY USE DURING A SSH SESSION)"; exit 0 ;;
+  3) echo "Midnight Commander installed and ready!)"; exit 0 ;;
   4) echo "Always run this script using the full path: /mnt/.../directory/mcommander.sh"; _msg 0 ;;
 esac ; exit 0; }
 #----------------------- Check for full path ------------------------------------------------------------
@@ -40,28 +37,31 @@ cd $DIR;
 #----------------------- Download and decompress mc files if needed -------------------------------------
 FILE=${MCFILE}
 if [ ! -d ${DIR}/usr/local/bin ]; then
-  if [ ! -e ${DIR}/${FILE} ]; then fetch ${URL}/${FILE} || _msg 1; fi
+  if [ ! -e ${DIR}/${FILE} ]; then pkg fetch -y mc;
+    cp `find /var/cache/pkg/ -name ${FILE} -not -name "*~*"` ${DIR} || _msg 1; fi
   if [ -f ${DIR}/${FILE} ]; then tar xzf ${DIR}/${FILE} || _msg 2; rm ${DIR}/+*;
-    rm -R ${DIR}/usr/local/man; fi
+    rm -R ${DIR}/usr/local/man; rm /var/cache/pkg/*; fi
   if [ ! -d ${DIR}/usr/local/bin ]; then _msg 4; fi
 fi
 #----------------------- Download and decompress libslang files if needed -------------------------------
 FILE=${LIBSLANGFILE}
 if [ ! -d ${DIR}/usr/local/lib ]; then
-  if [ ! -e ${DIR}/${FILE} ]; then fetch ${URL}/${FILE} || _msg 1; fi
+  if [ ! -e ${DIR}/${FILE} ]; then pkg fetch -y libslang2;
+    cp `find /var/cache/pkg/ -name ${FILE} -not -name "*~*"` ${DIR} || _msg 1; fi
   if [ -f ${DIR}/${FILE} ]; then tar xzf ${DIR}/${FILE} || _msg 2};
     rm ${DIR}/+*; rm -R ${DIR}/usr/local/libdata; rm -R ${DIR}/usr/local/man;
     rm -R ${DIR}/usr/local/include; rm ${DIR}/usr/local/lib/*.a; rm ${DIR}/usr/local/bin/slsh;
-    rm ${DIR}/usr/local/etc/slsh.rc; fi
+    rm ${DIR}/usr/local/etc/slsh.rc; rm /var/cache/pkg/*; fi
   if [ ! -d ${DIR}/usr/local/lib ]; then _msg 4; fi
 fi
 #----------------------- Download and decompress libssh2 files if needed --------------------------------
 FILE=${LIBSSH2FILE}
 if [ ! -f ${DIR}/usr/local/lib/libssh2.so ]; then
-  if [ ! -e ${DIR}/${FILE} ]; then fetch ${URL}/${FILE} || _msg 1; fi
+  if [ ! -e ${DIR}/${FILE} ]; then pkg fetch -y libssh2;
+    cp `find /var/cache/pkg/ -name ${FILE} -not -name "*~*"` ${DIR} || _msg 1; fi
   if [ -f ${DIR}/${FILE} ]; then tar xzf ${DIR}/${FILE} || _msg 2};
     rm ${DIR}/+*; rm -R ${DIR}/usr/local/libdata; rm -R ${DIR}/usr/local/man;
-    rm -R ${DIR}/usr/local/include; rm ${DIR}/usr/local/lib/*.a; fi
+    rm -R ${DIR}/usr/local/include; rm ${DIR}/usr/local/lib/*.a; rm /var/cache/pkg/*; fi
   if [ ! -d ${DIR}/usr/local/lib ]; then _msg 4; fi
 fi
 #----------------------- Create symlinks ----------------------------------------------------------------
