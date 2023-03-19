@@ -13,6 +13,7 @@
 # date:         2019-10-29 ; Updated for XigmaNAS 12.0.0.4
 # date:         2019-11-25 ; Updated for XigmaNAS 12.1.0.4
 # date:         2021-04-03 ; Updated for XigmaNAS 12.2.0.4
+# date:         2023-03-19 ; Fetch files with 'pkg fetch', exact filenames not needed, thanks Nivigor!
 # purpose:      Install Midnight Commander on XigmaNAS (embedded version).
 # Note:         Check the end of the page.
 #
