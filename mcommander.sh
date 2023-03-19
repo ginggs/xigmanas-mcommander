@@ -33,8 +33,8 @@ cd $DIR;
 PKG="mc"
 if [ ! -d ${DIR}/usr/local/bin ]; then
   if [ ! -e ${DIR}/All/${PKG}-*.pkg ]; then pkg fetch -o ${DIR} -y ${PKG} || _msg 1; fi
-  if [ -f ${DIR}/All/${PKG}-*.pkg ]; then tar xzf ${DIR}/All/${PKG}-*.pkg || _msg 2; rm ${DIR}/+*;
-    rm -R ${DIR}/usr/local/man; fi
+  if [ -f ${DIR}/All/${PKG}-*.pkg ]; then tar xzf ${DIR}/All/${PKG}-*.pkg || _msg 2;
+    rm ${DIR}/+*; rm -R ${DIR}/usr/local/man; fi
   if [ ! -d ${DIR}/usr/local/bin ]; then _msg 4; fi
 fi
 #----------------------- Download and decompress libslang files if needed -------------------------------
