@@ -39,13 +39,13 @@ if [ ! -d ${DIR}/usr/local/bin ]; then
 fi
 #----------------------- Download and decompress libslang files if needed -------------------------------
 PKG="libslang2"
-if [ ! -d ${DIR}/usr/local/lib ]; then
+if [ ! -f ${DIR}/usr/local/lib/libslang.so ]; then
   if [ ! -e ${DIR}/All/${PKG}-*.pkg ]; then pkg fetch -o ${DIR} -y ${PKG} || _msg 1; fi
   if [ -f ${DIR}/All/${PKG}-*.pkg ]; then tar xzf ${DIR}/All/${PKG}-*.pkg || _msg 2};
     rm ${DIR}/+*; rm -R ${DIR}/usr/local/libdata; rm -R ${DIR}/usr/local/man;
     rm -R ${DIR}/usr/local/include; rm ${DIR}/usr/local/lib/*.a; rm ${DIR}/usr/local/bin/slsh;
     rm ${DIR}/usr/local/etc/slsh.rc; fi
-  if [ ! -d ${DIR}/usr/local/lib ]; then _msg 4; fi
+  if [ ! -f ${DIR}/usr/local/lib/libslang.so ]; then _msg 4; fi
 fi
 #----------------------- Download and decompress libssh2 files if needed --------------------------------
 PKG="libssh2"
@@ -54,7 +54,7 @@ if [ ! -f ${DIR}/usr/local/lib/libssh2.so ]; then
   if [ -f ${DIR}/All/${PKG}-*.pkg ]; then tar xzf ${DIR}/All/${PKG}-*.pkg || _msg 2};
     rm ${DIR}/+*; rm -R ${DIR}/usr/local/libdata; rm -R ${DIR}/usr/local/man;
     rm -R ${DIR}/usr/local/include; rm ${DIR}/usr/local/lib/*.a; fi
-  if [ ! -d ${DIR}/usr/local/lib ]; then _msg 4; fi
+  if [ ! -f ${DIR}/usr/local/lib/libssh2.so ]; then _msg 4; fi
 fi
 #----------------------- Create symlinks ----------------------------------------------------------------
 if [ ! -e /usr/local/share/mc ]; then ln -s ${DIR}/usr/local/share/mc /usr/local/share; fi
