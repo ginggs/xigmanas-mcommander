@@ -18,19 +18,11 @@
 #
 #----------------------- Set variables ------------------------------------------------------------------
 DIR=`dirname $0`;
-PLATFORM=`uname -m`
-RELEASE=`uname -r | cut -d- -f1`
-REL_MAJOR=`echo $RELEASE | cut -d. -f1`
-REL_MINOR=`echo $RELEASE | cut -d. -f2`
-URL="http://distcache.freebsd.org/FreeBSD:${REL_MAJOR}:${PLATFORM}/release_${REL_MINOR}/All"
-MCFILE="mc-4.8.24.txz"
-LIBSLANGFILE="libslang2-2.3.2_2.txz"
-LIBSSH2FILE="libssh2-1.9.0_3,3.txz"
 #----------------------- Set Errors ---------------------------------------------------------------------
 _msg() { case $@ in
   0) echo "The script will exit now."; exit 0 ;;
   1) echo "No route to server, or file do not exist on server"; _msg 0 ;;
-  2) echo "Can't find ${FILE} on ${DIR}"; _msg 0 ;;
+  2) echo "Can't find ${PKG}-*.pkg on ${DIR}/All"; _msg 0 ;;
   3) echo "Midnight Commander installed and ready! (ONLY USE DURING A SSH SESSION)"; exit 0 ;;
   4) echo "Always run this script using the full path: /mnt/.../directory/mcommander.sh"; _msg 0 ;;
 esac ; exit 0; }
@@ -38,28 +30,28 @@ esac ; exit 0; }
 if [ ! `echo $0 |cut -c1-5` = "/mnt/" ]; then _msg 4 ; fi
 cd $DIR;
 #----------------------- Download and decompress mc files if needed -------------------------------------
-FILE=${MCFILE}
+PKG="mc"
 if [ ! -d ${DIR}/usr/local/bin ]; then
-  if [ ! -e ${DIR}/${FILE} ]; then fetch ${URL}/${FILE} || _msg 1; fi
-  if [ -f ${DIR}/${FILE} ]; then tar xzf ${DIR}/${FILE} || _msg 2; rm ${DIR}/+*;
+  if [ ! -e ${DIR}/All/${PKG}-*.pkg ]; then pkg fetch -o ${DIR} -y ${PKG} || _msg 1; fi
+  if [ -f ${DIR}/All/${PKG}-*.pkg ]; then tar xzf ${DIR}/All/${PKG}-*.pkg || _msg 2; rm ${DIR}/+*;
     rm -R ${DIR}/usr/local/man; fi
   if [ ! -d ${DIR}/usr/local/bin ]; then _msg 4; fi
 fi
 #----------------------- Download and decompress libslang files if needed -------------------------------
-FILE=${LIBSLANGFILE}
+PKG="libslang2"
 if [ ! -d ${DIR}/usr/local/lib ]; then
-  if [ ! -e ${DIR}/${FILE} ]; then fetch ${URL}/${FILE} || _msg 1; fi
-  if [ -f ${DIR}/${FILE} ]; then tar xzf ${DIR}/${FILE} || _msg 2};
+  if [ ! -e ${DIR}/All/${PKG}-*.pkg ]; then pkg fetch -o ${DIR} -y ${PKG} || _msg 1; fi
+  if [ -f ${DIR}/All/${PKG}-*.pkg ]; then tar xzf ${DIR}/All/${PKG}-*.pkg || _msg 2};
     rm ${DIR}/+*; rm -R ${DIR}/usr/local/libdata; rm -R ${DIR}/usr/local/man;
     rm -R ${DIR}/usr/local/include; rm ${DIR}/usr/local/lib/*.a; rm ${DIR}/usr/local/bin/slsh;
     rm ${DIR}/usr/local/etc/slsh.rc; fi
   if [ ! -d ${DIR}/usr/local/lib ]; then _msg 4; fi
 fi
 #----------------------- Download and decompress libssh2 files if needed --------------------------------
-FILE=${LIBSSH2FILE}
+PKG="libssh2"
 if [ ! -f ${DIR}/usr/local/lib/libssh2.so ]; then
-  if [ ! -e ${DIR}/${FILE} ]; then fetch ${URL}/${FILE} || _msg 1; fi
-  if [ -f ${DIR}/${FILE} ]; then tar xzf ${DIR}/${FILE} || _msg 2};
+  if [ ! -e ${DIR}/All${PKG}-*.pkg ]; then pkg fetch -o ${DIR} -y ${PKG} || _msg 1; fi
+  if [ -f ${DIR}/All/${PKG}-*.pkg ]; then tar xzf ${DIR}/All/${PKG}-*.pkg || _msg 2};
     rm ${DIR}/+*; rm -R ${DIR}/usr/local/libdata; rm -R ${DIR}/usr/local/man;
     rm -R ${DIR}/usr/local/include; rm ${DIR}/usr/local/lib/*.a; fi
   if [ ! -d ${DIR}/usr/local/lib ]; then _msg 4; fi
